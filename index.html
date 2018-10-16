@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>InMoment Tracking</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script type="text/javascript" src="data.js"></script>
+    <script type="text/javascript" src="bg.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="fluid-container">
+        <div class="row">
+            <div class="col intro">
+                <p class="title">当前主题：第8周－玩手机</p>
+                <p class="des">哎呀呀，到底还有几张明信片在路上呀？</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <div id='canvas'></div>
+            </div>
+        </div>
+    </div>
+    <style>
+    html {
+        overflow: hidden;
+    }
+
+    body {
+        background: #f6f6f6;
+    }
+    .intro{
+      text-align: center;
+      margin-top: 1.5em;
+      margin-bottom: 3em;
+    }
+    .title {
+        
+        font-size: 1.4em;
+    }
+    .intro{
+      font-size: .8em;
+
+    }
+
+    #canvas {
+        border-radius: .2em;
+        padding: 2em;
+        border: 1px solid #ccc;
+        background: #f7f6f3;
+        box-shadow: 0.1em 0.2em 0.5em rgba(0, 0, 0, 0.2);
+    }
+    </style>
+    <script>
+    console.log(data)
+    const canvas = d3.select('#canvas')
+    canvas.html(bg)
+
+    // //position of irina and liu
+    const colors = {
+        irina: "#f7e53e",
+        liu: "#f97ac2"
+    }
+    d3.select('#usa').selectAll('line').style('stroke', colors.irina)
+    d3.select('#sg').style('stroke', colors.liu)
+    d3.selectAll('.track').style('stroke', '#666').style('stroke-width', 1)
+
+    drawCards('irina', 'liu')
+    drawCards('liu', 'irina')
+
+    function drawCards(sender, receiver) {
+        const track_stor = d3.select(`#${sender}-${receiver}`)
+        const ratio = .5
+        const plot = canvas.select('svg')
+        console.log(track_stor.node())
+        const cardBox = plot.selectAll(`.card${sender}-${receiver}`).data(data[sender]).enter().append('g').attr('class', d => `card${sender}-${receiver} ${sender}-${receiver}-${d.week}`)
+            .attr('transform', `translate(${+track_stor.attr('x1') + (+track_stor.attr('x2') - +track_stor.attr('x1')) * ratio},${+track_stor.attr('y1') + (+track_stor.attr('y2') - +track_stor.attr('y1')) * ratio})`)
+
+        cardBox.append('line').attr('x1', 0).attr('y1', 0).attr('y2', 15).attr('x2', 0)
+            .style('stroke', '#333').style('stroke-width', 1.5)
+        cardBox.append('text').text(d => `第${d.week}周`).style('text-anchor', 'middle')
+            .attr('transform', 'translate(0, 35)')
+        cardBox.insert('rect', 'text')
+            .attr('x', d => {
+                const text = d3.select(`.${sender}-${receiver}-${d.week}`).select('text').node().getBBox()
+                return -text.width / 2 - 10
+            }).attr('y', 15)
+            .attr('width', d => {
+                const text = d3.select(`.${sender}-${receiver}-${d.week}`).select('text').node().getBBox()
+                return text.width + 10 * 2
+            })
+            .attr('height', d => {
+                const text = d3.select(`.${sender}-${receiver}-${d.week}`).select('text').node().getBBox()
+                return text.height + 10
+            })
+            .style('stroke', '#333').style('stroke-width', 1.5).style('fill', colors[sender])
+    }
+    </script>
+</body>
+
+</html>
