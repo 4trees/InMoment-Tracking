@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>InMoment Tracking</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script type="text/javascript" src="data.js"></script>
     <script type="text/javascript" src="bg.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -55,7 +55,7 @@
     }
     </style>
     <script>
-    console.log(data)
+
     const canvas = d3.select('#canvas')
     canvas.html(bg)
 
@@ -75,7 +75,6 @@
         const track_stor = d3.select(`#${sender}-${receiver}`)
         const ratio = .5
         const plot = canvas.select('svg')
-        console.log(track_stor.node())
         const cardBox = plot.selectAll(`.card${sender}-${receiver}`).data(data[sender]).enter().append('g').attr('class', d => `card${sender}-${receiver} ${sender}-${receiver}-${d.week}`)
             .attr('transform', `translate(${+track_stor.attr('x1') + (+track_stor.attr('x2') - +track_stor.attr('x1')) * ratio},${+track_stor.attr('y1') + (+track_stor.attr('y2') - +track_stor.attr('y1')) * ratio})`)
 
