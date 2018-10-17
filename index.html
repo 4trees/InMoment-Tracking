@@ -32,17 +32,20 @@
     body {
         background: #f6f6f6;
     }
-    .intro{
-      text-align: center;
-      margin-top: 1.5em;
-      margin-bottom: 3em;
+
+    .intro {
+        text-align: center;
+        margin-top: 1.5em;
+        margin-bottom: 3em;
     }
+
     .title {
-        
+
         font-size: 1.4em;
     }
-    .intro{
-      font-size: .8em;
+
+    .intro {
+        font-size: .8em;
 
     }
 
@@ -55,7 +58,6 @@
     }
     </style>
     <script>
-
     const canvas = d3.select('#canvas')
     canvas.html(bg)
 
@@ -76,7 +78,13 @@
         const ratio = .5
         const plot = canvas.select('svg')
         const cardBox = plot.selectAll(`.card${sender}-${receiver}`).data(data[sender]).enter().append('g').attr('class', d => `card${sender}-${receiver} ${sender}-${receiver}-${d.week}`)
-            .attr('transform', `translate(${+track_stor.attr('x1') + (+track_stor.attr('x2') - +track_stor.attr('x1')) * ratio},${+track_stor.attr('y1') + (+track_stor.attr('y2') - +track_stor.attr('y1')) * ratio})`)
+          .attr('transform', d => {
+            const x = sender == "irina" ? track_stor.attr('x1') : track_stor.attr('x2');
+            const y = sender == "irina" ? track_stor.attr('y1') : track_stor.attr('y2')
+            return `translate(${x}, ${y})`
+
+          })
+
 
         cardBox.append('line').attr('x1', 0).attr('y1', 0).attr('y2', 15).attr('x2', 0)
             .style('stroke', '#333').style('stroke-width', 1.5)
@@ -96,6 +104,8 @@
                 return text.height + 10
             })
             .style('stroke', '#333').style('stroke-width', 1.5).style('fill', colors[sender])
+        cardBox.transition().duration(1500).ease(d3.easeLinear)
+            .attr('transform', `translate(${+track_stor.attr('x1') + (+track_stor.attr('x2') - +track_stor.attr('x1')) * ratio},${+track_stor.attr('y1') + (+track_stor.attr('y2') - +track_stor.attr('y1')) * ratio})`)
     }
     </script>
 </body>
