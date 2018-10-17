@@ -75,17 +75,16 @@
 
     function drawCards(sender, receiver) {
         const track_stor = d3.select(`#${sender}-${receiver}`)
-        const ratio = .5
         const plot = canvas.select('svg')
         const cardBox = plot.selectAll(`.card${sender}-${receiver}`).data(data[sender]).enter().append('g').attr('class', d => `card${sender}-${receiver} ${sender}-${receiver}-${d.week}`)
-          .attr('transform', d => {
-            const x = sender == "irina" ? track_stor.attr('x1') : track_stor.attr('x2');
-            const y = sender == "irina" ? track_stor.attr('y1') : track_stor.attr('y2')
-            return `translate(${x}, ${y})`
+            .attr('transform', d => {
+                const x = sender == "irina" ? track_stor.attr('x1') : track_stor.attr('x2');
+                const y = sender == "irina" ? track_stor.attr('y1') : track_stor.attr('y2')
+                return `translate(${x}, ${y})`
 
-          })
+            })
 
-
+        const mg_d = .1;
         cardBox.append('line').attr('x1', 0).attr('y1', 0).attr('y2', 15).attr('x2', 0)
             .style('stroke', '#333').style('stroke-width', 1.5)
         cardBox.append('text').text(d => `第${d.week}周`).style('text-anchor', 'middle')
@@ -105,7 +104,21 @@
             })
             .style('stroke', '#333').style('stroke-width', 1.5).style('fill', colors[sender])
         cardBox.transition().duration(1500).ease(d3.easeLinear)
-            .attr('transform', `translate(${+track_stor.attr('x1') + (+track_stor.attr('x2') - +track_stor.attr('x1')) * ratio},${+track_stor.attr('y1') + (+track_stor.attr('y2') - +track_stor.attr('y1')) * ratio})`)
+            .attr('transform', d => {
+                let ratio = (new Date() - new Date(d.date)) / (20 * 24 * 60 * 60 * 1000);
+                console.log(d.date, ratio)
+                if (ratio <= mg_d) {
+                    ratio = mg_d
+                } else if (ratio >= (1 - mg_d)) {
+                    ratio = 1 - mg_d
+                }
+                console.log(ratio)
+                return `
+                translate(
+                ${+track_stor.attr('x1') + (+track_stor.attr('x2') - +track_stor.attr('x1')) * ratio},
+                ${+track_stor.attr('y1') + (+track_stor.attr('y2') - +track_stor.attr('y1')) * ratio}
+                )`
+            })
     }
     </script>
 </body>
