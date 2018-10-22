@@ -1,8 +1,5 @@
 const data = {
-    irina: [{
-            "date": "2018-10-6",
-            "week": 5,
-        },
+    irina: [
         {
             "date": "2018-10-16",
             "week": 6,
