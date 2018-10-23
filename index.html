@@ -38,17 +38,6 @@
         margin-top: 1.5em;
         margin-bottom: 3em;
     }
-
-    .title {
-
-        font-size: 1.4em;
-    }
-
-    .intro {
-        font-size: .8em;
-
-    }
-
     #canvas {
         border-radius: .2em;
         padding: 2em;
@@ -58,9 +47,18 @@
     }
     </style>
     <script>
-
     const canvas = d3.select('#canvas')
-    canvas.html(bg)
+    const orientation = window.screen.orientation.type.includes('landscape')
+    if (orientation) {
+        canvas.html(bg_h)
+        d3.select('.title').style('font-size','1.3rem')
+        d3.select('.des').style('font-size','.8rem')
+    } else {
+        canvas.html(bg_v)
+        d3.select('.title').style('font-size','3rem').style('margin-top','2em')
+        d3.select('.des').style('font-size','1.8rem').style('margin-bottom','1em')
+    }
+
 
     // //position of irina and liu
     const colors = {
@@ -107,7 +105,6 @@
         cardBox.transition().duration(1500).ease(d3.easeLinear)
             .attr('transform', d => {
                 let ratio = (new Date() - new Date(d.date)) / (20 * 24 * 60 * 60 * 1000);
-                console.log(d.date, ratio)
                 if (ratio <= mg_d) {
                     ratio = mg_d
                 } else if (ratio >= (1 - mg_d)) {
