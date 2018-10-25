@@ -9,10 +9,7 @@ const data = {
             "week":7,
         }
     ],
-    liu: [{
-            "date": "2018-10-7",
-            "week": 5,
-        },
+    liu: [
         {
             "date": "2018-10-19",
             "week": 6,
