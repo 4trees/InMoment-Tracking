@@ -1,5 +1,9 @@
 const data = {
     irina: [
+         {
+            "date": "2018-11-21",
+            "week": 9,
+        },
     ],
     liu: [
         {
