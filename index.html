@@ -111,15 +111,15 @@
                     ratio = 1 - mg_d
                 }
 
-                return data[sender] === 'liu'? `
-                translate(
-                ${+track_stor.attr('x2') + (+track_stor.attr('x2') - +track_stor.attr('x1')) * (1 - ratio)},
-                ${+track_stor.attr('y2') + (+track_stor.attr('y2') - +track_stor.attr('y1')) * (1 - ratio)}
-                )
-                ` : `
+                return sender === 'irina' ? `
                 translate(
                 ${+track_stor.attr('x1') + (+track_stor.attr('x2') - +track_stor.attr('x1')) * ratio},
                 ${+track_stor.attr('y1') + (+track_stor.attr('y2') - +track_stor.attr('y1')) * ratio}
+                )`
+                : `
+                translate(
+                ${+track_stor.attr('x1') + (+track_stor.attr('x2') - +track_stor.attr('x1')) * (1 - ratio)},
+                ${+track_stor.attr('y1') + (+track_stor.attr('y2') - +track_stor.attr('y1')) * (1 - ratio)}
                 )`
             })
     }
