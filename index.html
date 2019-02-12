@@ -113,8 +113,8 @@
 
                 return data[sender] === 'liu'? `
                 translate(
-                ${+track_stor.attr('x1') + (+track_stor.attr('x2') - +track_stor.attr('x1')) * (1 - ratio)},
-                ${+track_stor.attr('y1') + (+track_stor.attr('y2') - +track_stor.attr('y1')) * (1 - ratio)}
+                ${+track_stor.attr('x2') + (+track_stor.attr('x2') - +track_stor.attr('x1')) * (1 - ratio)},
+                ${+track_stor.attr('y2') + (+track_stor.attr('y2') - +track_stor.attr('y1')) * (1 - ratio)}
                 )
                 ` : `
                 translate(
